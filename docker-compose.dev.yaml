@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1433:1433"
+    user: root
+    env_file:
+      - db/sqlserver.env
+      - db/sapassword.env
+    volumes:
+      - db_data:/var/opt/mssql/data
+      
+volumes:
+  db_data:
