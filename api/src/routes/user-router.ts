@@ -1,13 +1,12 @@
 import express, { Request, Response } from "express";
 import { param } from "express-validator";
 
-import { RoleService, UserService } from "../services";
+import {  UserService } from "../services";
 import { ReturnValidationErrors } from "../middleware";
 import { User } from "../data/models";
 
 export const userRouter = express.Router();
 const db = new UserService();
-const roleService = new RoleService();
 
 userRouter.get("/me", async (req: Request, res: Response) => {
   return res.json({ data: req.user });
@@ -15,11 +14,6 @@ userRouter.get("/me", async (req: Request, res: Response) => {
 
 userRouter.get("/", async (req: Request, res: Response) => {
   let list = await db.getAll();
-
-  for (let l of list) {
-    l.roles = await roleService.getRolesForUser(l.id);
-  }
-
   return res.json({ data: list });
 });
 
