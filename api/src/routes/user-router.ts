@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { param } from "express-validator";
 
-import {  UserService } from "../services";
+import { UserService } from "../services";
 import { ReturnValidationErrors } from "../middleware";
 import { User } from "../data/models";
 
@@ -59,6 +59,7 @@ userRouter.put(
     if (!existing) return res.status(404).send("User not found");
 
     delete existing.roles;
+    delete existing.id;
 
     existing.is_active = is_active;
     existing.department = department;
