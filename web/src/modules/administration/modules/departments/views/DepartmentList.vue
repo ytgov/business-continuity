@@ -14,7 +14,7 @@
     </template>
   </v-breadcrumbs>
 
-  <h1>Users</h1>
+  <h1>Departments</h1>
 
   <base-card showHeader="t" heading="" elevation="0">
     <template v-slot:left>
@@ -28,7 +28,7 @@
         class="ml-2"></v-text-field>
     </template>
     <template v-slot:right>
-      <add-user :onComplete="loadItems"></add-user>
+      <v-btn color="info" @click="addClick">Add</v-btn>
     </template>
 
     <v-data-table :search="search" :headers="headers" :items="items" :loading="isLoading" @click:row="rowClick">
@@ -36,42 +36,33 @@
         <span style="color: #7a9a01" v-if="item.is_active">Active</span>
         <span style="color: orangered" v-else>Inactive</span>
       </template>
-
-      <template v-slot:item.roles="{ item }">
-        {{ item.roles }}
-      </template>
     </v-data-table>
   </base-card>
 
-  <user-editor></user-editor>
+  <editor></editor>
 </template>
 <script lang="ts">
 import { mapActions, mapState } from "pinia";
-import { useUserAdminStore } from "../store";
-import { useDepartmentStore } from "@/store/DepartmentStore";
-import UserEditor from "../components/UserEditor.vue";
+import { useDepartmentAdminStore } from "../store";
+import Editor from "../components/Editor.vue";
 import { clone } from "lodash";
-import AddUser from "../components/AddUser.vue";
 
 export default {
-  components: { UserEditor, AddUser },
+  components: { Editor },
   data: () => ({
     headers: [
-      { title: "Name", key: "display_name" },
-      { title: "Email", key: "email" },
+      { title: "Name", key: "name" },
       { title: "Status", key: "is_active" },
-      { title: "Roles", key: "roles" },
     ],
     search: "",
   }),
   computed: {
-    ...mapState(useUserAdminStore, ["users", "isLoading"]),
-    ...mapState(useDepartmentStore, ["departments"]),
+    ...mapState(useDepartmentAdminStore, ["departments", "isLoading"]),
     items() {
-      return this.users;
+      return this.departments;
     },
     totalItems() {
-      return this.users.length;
+      return this.departments.length;
     },
     breadcrumbs() {
       return [
@@ -80,25 +71,25 @@ export default {
           to: "/administration",
         },
         {
-          title: "Users",
+          title: "Departments",
         },
       ];
     },
   },
   beforeMount() {
     this.loadItems();
-
-    this.initializeDepartments();
   },
   methods: {
-    ...mapActions(useUserAdminStore, ["getAllUsers", "selectUser"]),
-    ...mapActions(useDepartmentStore, { initializeDepartments: "initialize" }),
+    ...mapActions(useDepartmentAdminStore, ["getAll", "select"]),
 
     async loadItems() {
-      await this.getAllUsers();
+      await this.getAll();
     },
     rowClick(event: Event, thing: any) {
-      this.selectUser(clone(thing.item));
+      this.select(clone(thing.item));
+    },
+    addClick() {
+      this.select({ is_active: true });
     },
   },
 };

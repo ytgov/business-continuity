@@ -34,36 +34,13 @@
               density="comfortable" />
           </v-col>
           <v-col>
-            <div v-for="(role, idx) of selectedUser.roles">
-              <div class="d-flex">
-                <v-select
-                  label="Role"
-                  v-model="role.role_type_id"
-                  :items="roles"
-                  item-title="name"
-                  item-value="id"
-                  hide-details />
-
-                <v-btn
-                  class="ml-2"
-                  icon="mdi-delete"
-                  size="small"
-                  color="warning"
-                  @click="removeRoleClick(idx)"></v-btn>
-              </div>
-              <v-autocomplete
-                v-if="departmentRelevantList.includes(role.role_type_id)"
-                class="mt-5"
-                label="Department"
-                v-model="role.department_code"
-                :items="departments"
-                item-title="name"
-                hide-details
-                item-value="code" />
-
-              <v-divider v-if="idx < selectedUser.roles.length - 1" class="my-4" color="black" :opacity="0.4" />
-            </div>
-            <v-btn @click="addRoleClick" color="info" class="float-right mt-4">Add role</v-btn>
+            <v-select
+              label="Role"
+              v-model="selectedUser.roles"
+              :items="roles"
+              item-title="name"
+              item-value="id"
+              hide-details />
           </v-col>
         </v-row>
       </v-card-text>
@@ -79,18 +56,17 @@
 <script lang="ts">
 import { mapActions, mapState } from "pinia";
 import { useUserAdminStore } from "../store";
-import { useDepartmentStore } from "@/store/DepartmentStore";
-import { useRoleStore } from "@/store/RoleStore";
+import { useAdminDepartmentStore } from "../../departments/store";
 
 export default {
   name: "UserEditor",
   data: () => ({
     departmentRelevantList: [3, 4],
+    roles: ["System Admin", "Departmental"],
   }),
   computed: {
     ...mapState(useUserAdminStore, ["selectedUser"]),
-    ...mapState(useDepartmentStore, ["departments"]),
-    ...mapState(useRoleStore, ["roles"]),
+    ...mapState(useAdminDepartmentStore, ["departments"]),
 
     visible() {
       return this.selectedUser ? true : false;
@@ -100,21 +76,6 @@ export default {
     ...mapActions(useUserAdminStore, ["unselectUser", "saveUser"]),
     close() {
       this.unselectUser();
-    },
-
-    addRoleClick() {
-      if (!this.selectedUser) return;
-      this.selectedUser.roles = this.selectedUser.roles || [];
-
-      (this.selectedUser.roles || []).push({
-        role_type_id: 1,
-        user_id: this.selectedUser.id,
-        start_date: new Date(),
-        department_code: undefined, 
-      });
-    },
-    removeRoleClick(idx: number) {
-      if (this.selectedUser) (this.selectedUser.roles || []).splice(idx, 1);
     },
   },
 };

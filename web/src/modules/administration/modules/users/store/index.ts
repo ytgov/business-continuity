@@ -61,7 +61,7 @@ export const useUserAdminStore = defineStore("userAdmin", {
           .then(async (resp) => {
             this.users = resp.data;
 
-            await api.secureCall("post", `${ROLE_URL}/user/${u.id}`, { roles }).then((resp) => {});
+            //await api.secureCall("post", `${ROLE_URL}/user/${u.id}`, { roles }).then((resp) => {});
 
             this.unselectUser();
           })
@@ -109,20 +109,7 @@ export interface User {
   unit: string;
   is_active: boolean | string;
 
-  roles: UserRole[];
-}
-
-export interface UserRole {
-  id?: number;
-  name?: string;
-  department_code?: string;
-  location_code?: string;
-  role_type_id: number;
-  user_id: number;
-  created_at?: Date;
-  create_user_id?: number;
-  start_date: Date;
-  end_date?: Date;
+  roles: string;
 }
 
 if (import.meta.hot) {

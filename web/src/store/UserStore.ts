@@ -3,6 +3,7 @@ import { acceptHMRUpdate, defineStore } from "pinia";
 import { useApiStore } from "@/store/ApiStore";
 import { PROFILE_URL } from "@/urls";
 import { User } from "@/modules/administration/modules/users/store";
+import { isArray } from "lodash";
 
 const SYSTEM_ADMIN_ROLE_NAME = "System Admin";
 
@@ -15,7 +16,9 @@ export const useUserStore = defineStore("user", {
     isSystemAdmin(state) {
       if (!state.user) return false;
       if (state.user.roles) {
-        const admin = state.user.roles.find((r) => r.name == SYSTEM_ADMIN_ROLE_NAME);
+        const roles = (state.user.roles || "").split(",");
+
+        const admin = roles.find((r) => r == SYSTEM_ADMIN_ROLE_NAME);
         if (admin) return true;
       }
       return false;
@@ -38,8 +41,8 @@ export const useUserStore = defineStore("user", {
         .then((resp) => {
           this.user = resp.data;
         })
-        .catch(resp => {
-          console.log("ERROR LOADING CURRENT USER",resp)
+        .catch((resp) => {
+          console.log("ERROR LOADING CURRENT USER", resp);
         })
         .finally(() => {
           this.isLoading = false;

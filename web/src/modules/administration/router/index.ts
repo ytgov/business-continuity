@@ -17,6 +17,20 @@ const routes: RouteRecordRaw[] = [
       requireSystemAdmin: true,
     },
   },
+  {
+    path: "administration/departments",
+    component: () => import("../modules/departments/views/DepartmentList.vue"),
+    meta: {
+      requireSystemAdmin: true,
+    },
+  },
+  {
+    path: "administration/documentation",
+    component: () => import("../modules/documentations/views/DocumentationList.vue"),
+    meta: {
+      requireSystemAdmin: true,
+    },
+  },
 ];
 
 export async function waitForUserToLoad(): Promise<any> {

@@ -29,17 +29,16 @@ export const DB_PASS = process.env.DB_PASS || "";
 export const DB_HOST = process.env.DB_HOST || "";
 export const DB_PORT = parseInt(process.env.DB_PORT || "") || 5432;
 export const DB_NAME = process.env.DB_NAME || "";
-export const DB_CLIENT = process.env.DB_CLIENT || "postgresql";
 
 export const API_GATEWAY_KEY = process.env.API_GATEWAY_KEY || "";
 
 export const DB_CONFIG = {
-  client: DB_CLIENT,
+  client: "mssql",
   connection: { host: DB_HOST, user: DB_USER, password: DB_PASS, database: DB_NAME, port: DB_PORT },
 };
 
 export const DB_CONFIG_DEV = {
-  client: DB_CLIENT,
+  client: "mssql",
   connection: {
     server: DB_HOST,
     user: DB_USER,

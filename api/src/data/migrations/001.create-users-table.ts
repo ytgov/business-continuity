@@ -13,6 +13,7 @@ export async function up(knex: knex.Knex) {
     table.string("division", 100);
     table.string("branch", 100);
     table.string("unit", 100);
+    table.string("roles", 250);
     table.boolean("is_active").defaultTo(true).notNullable();
 
     table.unique(["email"], {
