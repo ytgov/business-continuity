@@ -56,7 +56,7 @@
 <script lang="ts">
 import { mapActions, mapState } from "pinia";
 import { useUserAdminStore } from "../store";
-import { useAdminDepartmentStore } from "../../departments/store";
+import { useDepartmentAdminStore } from "../../departments/store";
 
 export default {
   name: "UserEditor",
@@ -66,7 +66,7 @@ export default {
   }),
   computed: {
     ...mapState(useUserAdminStore, ["selectedUser"]),
-    ...mapState(useAdminDepartmentStore, ["departments"]),
+    ...mapState(useDepartmentAdminStore, ["departments"]),
 
     visible() {
       return this.selectedUser ? true : false;
