@@ -2,7 +2,7 @@ import { acceptHMRUpdate, defineStore } from "pinia";
 
 import { useNotificationStore } from "@/store/NotificationStore";
 import { useApiStore } from "@/store/ApiStore";
-import { DIRECTORY_URL, ROLE_URL, USERS_URL } from "@/urls";
+import { DIRECTORY_URL, USERS_URL } from "@/urls";
 import { clone } from "lodash";
 
 let m = useNotificationStore();
