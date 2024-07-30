@@ -37,7 +37,7 @@
         <span style="color: orangered" v-else>Inactive</span>
       </template>
       <template v-slot:item.department_id="{ item }">
-        <span style="" v-if="item.department_id">{{ departments?.find((d) => d.id == item.department_id).name }}</span>
+        <span style="" v-if="item.department_id">{{ departments?.find((d) => d.id == item.department_id)?.name }}</span>
         <span style="color: orangered" v-else>All Departments</span>
       </template>
     </v-data-table>
