@@ -52,7 +52,8 @@ export const useUserStore = defineStore("user", {
     hasRole(roleName: string): boolean {
       if (!this.user) return false;
       if (this.user.roles) {
-        const role = this.user.roles.find((r) => r.name == roleName);
+        const roles = (this.user.roles || "").split(",");
+        const role = roles.find((r) => r == roleName);
         if (role) return true;
       }
       return false;

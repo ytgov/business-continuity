@@ -11,3 +11,4 @@ export const DIRECTORY_URL = `${config.apiBaseUrl}/api/directory`;
 export const DEPARTMENT_URL = `${config.apiBaseUrl}/api/department`;
 export const DOCUMENTATION_URL = `${config.apiBaseUrl}/api/documentation`;
 export const DOCUMENTS_URL = `${config.apiBaseUrl}/api/documents`;
+export const ROLE_URL = "";
