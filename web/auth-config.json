@@ -5,7 +5,7 @@
     "domain": "https://dev-0tc6bn14.eu.auth0.com"
   },
   "production": {
-    "client_id": "",
+    "client_id": "gm8MJNfJ2eFZHyZVRRUaP8MwuKhMYQ0U",
     "audience": "generic-production",
     "domain": "https://sign-in.service.yukon.ca"
   }

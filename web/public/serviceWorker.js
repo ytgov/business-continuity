@@ -18,52 +18,40 @@ self.skipWaiting();
 precacheAndRoute(self.__WB_MANIFEST);
 
 // Works if app is a single page app
-registerRoute(new NavigationRoute(createHandlerBoundToURL("/index.html")));
-
-// Example cache GET req (import removed)
-// workbox.routing.registerRoute(({ url }) => {
-//  return url.pathname.startsWith('/node_modules/');
-// },
-// new strategies.CacheFirst({
-//     cacheName: 'node-module-cache',
-//     plugins: [
-//       new expiration.ExpirationPlugin({
-//         maxEntries: 255,
-//         maxAgeSeconds: 60 * 60 * 24 * 30,
-//       }),
-//     ],
-//   })
-// );
-
-/*
- * Attempt to cache simple api calls
- */
+registerRoute(
+  new NavigationRoute(createHandlerBoundToURL("/index.html"), {
+    denylist: [new RegExp(/^\/api/), new RegExp(/^\/migrate/)],
+  })
+);
 
 // Cache fonts
-registerRoute(({ request }) => {
-  return request.destination === 'font';
-}, new CacheFirst({
-  cacheName: 'font-cache',
-  plugins: [
-    new ExpirationPlugin({
-      maxEntries: 64,
-      maxAgeSeconds: 60 * 60 * 24 * 30,
-    }),
-  ],
-})
+registerRoute(
+  ({ request }) => {
+    return request.destination === "font";
+  },
+  new CacheFirst({
+    cacheName: "font-cache",
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 64,
+        maxAgeSeconds: 60 * 24 * 60, // 60 days
+      }),
+    ],
+  })
 );
 
 // Cache reports
-registerRoute(({ url }) => {
-  return url.pathname.startsWith("/api/location");
-}, new NetworkFirst({
-  cacheName: "api-location",
-  plugins: [
-    new ExpirationPlugin({
-      maxEntries: 16,
-      maxAgeSeconds: 120,
-    }),
-  ],
-})
+registerRoute(
+  ({ url }) => {
+    return url.pathname.startsWith("/api/documents");
+  },
+  new NetworkFirst({
+    cacheName: "api-documents",
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 16,
+        maxAgeSeconds: 60 * 24 * 60, // 60 days
+      }),
+    ],
+  })
 );
-
