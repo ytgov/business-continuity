@@ -22,25 +22,16 @@ export const checkJwt = jwt({
 });
 
 export async function loadUser(req: Request, res: Response, next: NextFunction) {
-  console.log("H0")
-
   const db = new UserService();
-
-  console.log("H1")
 
   let sub = req.auth.sub;
   const token = req.headers.authorization || "";
   let u = await db.getBySub(sub);
 
-  
-  console.log("H2")
-
   if (u) {
     req.user = { ...req.auth, ...u };
     return next();
   }
-  console.log("H3",`${AUTH0_DOMAIN}/userinfo`)
-
   await axios
     .get(`${AUTH0_DOMAIN}/userinfo`, { headers: { authorization: token } })
     .then(async (resp: any) => {
@@ -52,15 +43,12 @@ export async function loadUser(req: Request, res: Response, next: NextFunction) 
 
         let u = await db.getBySub(sub);
 
-        console.log("SUB", sub, u);
-
         if (u) {
           req.user = { ...req.auth, ...u };
         } else {
           if (!email) email = `${first_name}.${last_name}@yukon-no-email.ca`;
 
           let e = await db.getByEmail(email);
-          console.log("EMAIL", email, e);
 
           if (e && e.auth_subject == "SUB_MISSING") {
             req.user = { ...req.auth, ...e };
