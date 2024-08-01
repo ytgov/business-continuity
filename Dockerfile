@@ -65,9 +65,6 @@ COPY --from=web-build-stage --chown=node:node /usr/src/web/dist ./dist/web/
 RUN echo "RELEASE_TAG=${RELEASE_TAG}" >> VERSION
 RUN echo "GIT_COMMIT_HASH=${GIT_COMMIT_HASH}" >> VERSION
 
-ENV NODE_TLS_REJECT_UNAUTHORIZED=0
-ENV NODE_OPTIONS=--openssl-legacy-provider
-
 EXPOSE 3000
 
 CMD ["node", "./dist/index.js"]
