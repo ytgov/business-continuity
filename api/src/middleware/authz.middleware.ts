@@ -22,6 +22,8 @@ export const checkJwt = jwt({
 });
 
 export async function loadUser(req: Request, res: Response, next: NextFunction) {
+  console.log("H0")
+
   const db = new UserService();
 
   console.log("H1")
