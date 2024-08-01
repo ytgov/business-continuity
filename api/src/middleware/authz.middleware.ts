@@ -24,14 +24,20 @@ export const checkJwt = jwt({
 export async function loadUser(req: Request, res: Response, next: NextFunction) {
   const db = new UserService();
 
+  console.log("H1")
+
   let sub = req.auth.sub;
   const token = req.headers.authorization || "";
   let u = await db.getBySub(sub);
+
+  
+  console.log("H2")
 
   if (u) {
     req.user = { ...req.auth, ...u };
     return next();
   }
+  console.log("H3",`${AUTH0_DOMAIN}/userinfo`)
 
   await axios
     .get(`${AUTH0_DOMAIN}/userinfo`, { headers: { authorization: token } })
