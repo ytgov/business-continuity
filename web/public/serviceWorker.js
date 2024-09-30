@@ -44,14 +44,14 @@ registerRoute(
 registerRoute(
   ({ url }) => {
     return url.pathname.startsWith("/api/documents");
-  },
+  },6
   new NetworkFirst({
     cacheName: "api-documents",
-    plugins: [
+    /* plugins: [
       new ExpirationPlugin({
         maxEntries: 16,
         maxAgeSeconds: 60 * 24 * 60, // 60 days
       }),
-    ],
+    ], */
   })
 );
