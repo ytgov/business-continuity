@@ -44,7 +44,7 @@ registerRoute(
 registerRoute(
   ({ url }) => {
     return url.pathname.startsWith("/api/documents");
-  },6
+  },
   new NetworkFirst({
     cacheName: "api-documents",
     /* plugins: [
