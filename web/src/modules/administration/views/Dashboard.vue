@@ -66,7 +66,7 @@ import { mapActions, mapState } from "pinia";
 import { useUserAdminStore } from "../modules/users/store";
 import { useDepartmentAdminStore } from "../modules/departments/store";
 import { useDocumentationAdminStore } from "../modules/documentations/store";
-import { useUserStore } from "@/store/UserStore";
+import useCurrentUser from "@/use/use-current-user";
 
 export default {
   name: "Dashboard",
@@ -77,7 +77,10 @@ export default {
     ...mapState(useUserAdminStore, ["userCount"]),
     ...mapState(useDepartmentAdminStore, ["departmentCount"]),
     ...mapState(useDocumentationAdminStore, ["documentationCount"]),
-    ...mapState(useUserStore, ["user", "lastLogin"]),
+    user() {
+      const { currentUser } = useCurrentUser();
+      return currentUser;
+    },
   },
   async mounted() {
     await this.getAllUsers();

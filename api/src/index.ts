@@ -5,7 +5,7 @@ import helmet from "helmet";
 import fileUpload from "express-fileupload";
 import { API_PORT, AUTH0_DOMAIN, FRONTEND_URL } from "./config";
 import { doHealthCheck } from "./utils/healthCheck";
-import { departmentRouter, documentationRouter, documentsRouter, userRouter } from "./routes";
+import { departmentRouter, documentationRouter, documentsPublicRouter, documentsRouter, userRouter } from "./routes";
 import { checkJwt, loadUser } from "./middleware/authz.middleware";
 import migrator from "./data/migrator";
 
@@ -53,7 +53,8 @@ app.get("/api/healthCheck", (req: Request, res: Response) => {
 
 app.use("/migrate", migrator.migrationRouter);
 
-app.use("/api/documents", documentsRouter);
+app.use("/api/public-documents", documentsPublicRouter);
+app.use("/api/documents", checkJwt, loadUser, documentsRouter);
 app.use("/api/department", checkJwt, loadUser, departmentRouter);
 app.use("/api/documentation", checkJwt, loadUser, documentationRouter);
 app.use("/api/user", checkJwt, loadUser, userRouter);

@@ -1,9 +1,15 @@
-import { Documentation } from "../data/models";
+import { Documentation, DocumentationSecurityLevel } from "../data/models";
 import { db } from "../data";
 
 export class DocumentationService {
   async getAll(): Promise<Documentation[]> {
     return db.from("documentations").orderBy(["name"]);
+  }
+  async getAllPublic(): Promise<Documentation[]> {
+    return db
+      .from("documentations")
+      .whereIn("security_level", [DocumentationSecurityLevel.PUBLIC, DocumentationSecurityLevel.YG_LIKELY])
+      .orderBy(["name"]);
   }
 
   async getById(id: number | string): Promise<Documentation | undefined> {

@@ -32,9 +32,9 @@ documentationRouter.put(
   ReturnValidationErrors,
   async (req: Request, res: Response) => {
     const { id } = req.params;
-    let { name, is_active, department_id, description, text_value } = req.body;
+    let { name, is_active, department_id, description, text_value, security_level } = req.body;
 
-    let documentation = { name, is_active, department_id, description, text_value } as Documentation;
+    let documentation = { name, is_active, department_id, description, text_value, security_level } as Documentation;
 
     await db.update(id, documentation).catch((e) => {
       console.log("ERROR UPDATE");

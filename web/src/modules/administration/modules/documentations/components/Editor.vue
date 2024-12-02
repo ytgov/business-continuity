@@ -21,6 +21,12 @@
               ]"
               variant="outlined"
               density="comfortable" />
+            <v-select
+              label="Security level"
+              v-model="selectedDocumentation.security_level"
+              :items="securityLevelOptions"
+              variant="outlined"
+              density="comfortable" />
 
             <v-autocomplete
               label="Department"
@@ -48,6 +54,7 @@
 import { mapActions, mapState } from "pinia";
 import { useDocumentationAdminStore } from "../store";
 import { useDepartmentAdminStore } from "../../departments/store";
+import { DocumentationSecurityLevel } from "@/store/DepartmentStore";
 
 export default {
   name: "UserEditor",
@@ -58,6 +65,12 @@ export default {
 
     visible() {
       return this.selectedDocumentation ? true : false;
+    },
+    securityLevelOptions() {
+      return Object.keys(DocumentationSecurityLevel).map((value) => ({
+        title: DocumentationSecurityLevel[value],
+        value: DocumentationSecurityLevel[value],
+      }));
     },
   },
   async mounted() {

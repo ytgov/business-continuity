@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 import adminRoutes from "@/modules/administration/router";
 import { authGuard } from "@auth0/auth0-vue";
+import useCurrentUser from "@/use/use-current-user";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -31,14 +32,6 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-import { useUserStore } from "@/store/UserStore";
-
-export async function waitForUserToLoad(): Promise<any> {
-  let u = useUserStore();
-  await u.initialize();
-  return u;
-}
-
 export const router = createRouter({
   history: createWebHistory(),
   routes,
@@ -53,11 +46,15 @@ router.beforeEach(async (to) => {
 
   const isAuthenticated = await authGuard(to);
 
+  const {isSystemAdmin} = useCurrentUser()
+
   if (isAuthenticated) {
     if (to.meta.requireSystemAdmin) {
-      const u = await waitForUserToLoad();
+      //const u = await waitForUserToLoad();
 
-      return u.isSystemAdmin;
+      console.log("HERE",isSystemAdmin.value)
+      return isSystemAdmin.value;
+      //return u.isSystemAdmin;
     }
     return true;
   }

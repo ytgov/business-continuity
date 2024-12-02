@@ -59,6 +59,7 @@ export default {
       { title: "Name", key: "name" },
       { title: "Department", key: "department_id" },
       { title: "Status", key: "is_active" },
+      { title: "Level", key: "security_level" },
     ],
     search: "",
   }),

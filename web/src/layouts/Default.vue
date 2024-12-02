@@ -35,60 +35,37 @@
     <!-- fill-height causes the main content to fill the entire page -->
     <v-container fluid class="page-wrapper">
       <router-view></router-view>
-      <Notifications></Notifications>
     </v-container>
   </v-main>
 
-  <v-overlay v-model="showOverlay" class="align-center justify-center">
+  <!-- <v-overlay v-model="showOverlay" class="align-center justify-center">
     <div class="text-center">
       <v-progress-circular indeterminate size="64" class="mb-5" color="#f3b228" width="6"></v-progress-circular>
       <h2>Loading {{ title }}</h2>
     </div>
-  </v-overlay>
+  </v-overlay> -->
 </template>
 
-<script lang="ts">
-import { useUserStore } from "@/store/UserStore";
-import { useNotificationStore } from "@/store/NotificationStore";
-import { mapState, mapActions, mapWritableState } from "pinia";
-import Notifications from "@/components/Notifications.vue";
+<script setup lang="ts">
 import { applicationName } from "@/config";
 
-export default {
-  name: "Default",
-  components: { Notifications },
-  data() {
-    return {
-      isAuthenticated: this.$auth0.isAuthenticated,
-      authUser: this.$auth0.user,
-      showOverlay: true,
-    };
-  },
-  computed: {
-    ...mapWritableState(useNotificationStore, ["showNotification"]),
-    ...mapState(useUserStore, ["user", "isSystemAdmin"]),
+import useAuth0 from "@/plugins/auth";
+import useCurrentUser from "@/use/use-current-user";
 
-    title() {
-      return applicationName;
-    },
-    username() {
-      if (this.authUser) return this.authUser.name || "";
-      return "";
-    },
-  },
+const { logout } = useAuth0();
 
-  async mounted() {
-    await this.initialize();
-    this.showOverlay = false;
-  },
-  methods: {
-    ...mapActions(useUserStore, ["initialize"]),
+const { currentUser, isSystemAdmin } = useCurrentUser();
 
-    logoutClick() {
-      this.$auth.logout({ logoutParams: { returnTo: window.location.origin } });
-    },
-  },
-};
+const username = computed(() => {
+  if (currentUser.value === null) return "loading...";
+
+  const { displayName } = currentUser.value;
+  return displayName;
+});
+
+async function logoutClick() {
+  logout({ logoutParams: { returnTo: window.location.origin } });
+}
 </script>
 
 <style scoped>
