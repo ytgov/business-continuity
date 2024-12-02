@@ -11,30 +11,29 @@
   "dependencies": {
     "@auth0/auth0-vue": "^2.0.0",
     "@mdi/font": "^7.4.47",
-    "@vuepic/vue-datepicker": "^8.8.0",
-    "axios": "^1.6.5",
+    "@vuepic/vue-datepicker": "^10.0.0",
+    "axios": "^1.7.8",
     "lodash": "^4.17.21",
-    "luxon": "^3.4.4",
+    "luxon": "^3.5.0",
     "markdown-it": "^14.0.0",
     "moment": "^2.29.4",
-    "pinia": "^2.1.7",
+    "pinia": "^2.2.8",
     "register-service-worker": "^1.7.2",
-    "vite-plugin-pwa": "^0.20.0",
-    "vue": "^3.4.30",
-    "vue-router": "^4.4.0",
-    "vuetify": "^3.6.10"
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0",
+    "vuetify": "^3.7.4"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.5",
+    "@types/lodash": "^4.17.13",
     "@types/luxon": "^3.4.2",
-    "@types/markdown-it": "^14.1.1",
-    "@types/node": "^20.14.9",
-    "@vitejs/plugin-vue": "^5.0.5",
-    "typescript": "^5.5.2",
-    "vite": "^5.3.1",
-    "vite-plugin-pwa": "^0.20.0",
-    "vite-plugin-vuetify": "^2.0.3",
-    "vue-tsc": "^2.0.22"
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^20.17.9",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.1",
+    "vite-plugin-pwa": "^0.21.1",
+    "vite-plugin-vuetify": "^2.0.4",
+    "vue-tsc": "^2.1.10"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.9.5"
