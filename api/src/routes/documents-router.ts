@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 
 import { DepartmentService, DocumentationService } from "../services";
 import { isArray } from "lodash";
-import { DocumentationSecurityLevel } from "src/data/models";
+import { DocumentationSecurityLevel } from "../data/models";
 
 export const documentsRouter = express.Router();
 
