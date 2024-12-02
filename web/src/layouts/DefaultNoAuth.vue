@@ -8,7 +8,7 @@
     </v-app-bar-title>
 
     <template #append>
-      <div v-if="user && user.email">
+      <div v-if="currentUser && currentUser.email">
         <!--  <v-btn color="primary" class="mr-1" to="/administration" icon="mdi-home"></v-btn> -->
 
         <v-divider class="mr-5" vertical inset></v-divider>
@@ -19,17 +19,14 @@
           </template>
 
           <v-list density="compact">
-
-            <v-list-item >
+            <v-list-item>
               <template v-slot:prepend>
                 <v-icon>mdi-account</v-icon>
               </template>
 
-
-              <v-list-item-title style="font-size: 0.9rem !important">{{ user.display_name }}</v-list-item-title>
+              <v-list-item-title style="font-size: 0.9rem !important">{{ currentUser.display_name }}</v-list-item-title>
             </v-list-item>
 
-            
             <v-list-item to="/administration" v-if="isSystemAdmin">
               <template v-slot:prepend>
                 <v-icon>mdi-cog</v-icon>
@@ -58,12 +55,12 @@
       <router-view></router-view>
     </v-container>
   </v-main>
-  <v-overlay v-model="showApplicationOverlay" class="align-center justify-center">
+  <!-- <v-overlay v-model="showApplicationOverlay" class="align-center justify-center">
     <div class="text-center">
       <v-progress-circular indeterminate size="64" class="mb-5" color="#f3b228" width="6"></v-progress-circular>
       <h2>Loading {{ applicationName }}</h2>
     </div>
-  </v-overlay>
+  </v-overlay> -->
 </template>
 
 <script setup>
@@ -72,34 +69,25 @@ import { storeToRefs } from "pinia";
 import { useDisplay } from "vuetify";
 
 import { applicationName } from "@/config";
-import { waitForUserToLoad } from "@/modules/administration/router";
-import { AuthHelper } from "@/plugins/auth";
-import { useUserStore } from "@/store/UserStore";
 import { useInterfaceStore } from "@/store/InterfaceStore";
+import { useAuth0 } from "@auth0/auth0-vue";
+import useCurrentUser from "@/use/use-current-user";
+
+const { loginWithRedirect, logout } = useAuth0();
 
 const interfaceStore = useInterfaceStore();
-const { showApplicationOverlay, isOffline } = storeToRefs(interfaceStore);
-const { showOverlay, hideOverlay } = interfaceStore;
+const { isOffline } = storeToRefs(interfaceStore);
 
-const userStore = useUserStore();
-const { isSystemAdmin, user } = storeToRefs(userStore);
+const { currentUser, isSystemAdmin } = useCurrentUser();
 
 const { smAndUp } = useDisplay();
 
-showOverlay();
-
-onMounted(async () => {
-  await waitForUserToLoad();
-  //this.showOverlay = false;
-  hideOverlay();
-});
-
 async function logoutClick() {
-  await AuthHelper.logout({ returnTo: "https://safety.gov.yk.ca" });
+  await logout({ returnTo: "https://safety.gov.yk.ca" });
 }
 
 async function loginClick() {
-  AuthHelper.loginWithRedirect({
+  loginWithRedirect({
     appState: { target: window.location.pathname },
   });
 }

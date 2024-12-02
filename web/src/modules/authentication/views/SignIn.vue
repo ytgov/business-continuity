@@ -39,8 +39,7 @@
   </v-container>
 </template>
 
-<script lang="ts" setup>
-import { waitForUserToLoad } from "@/modules/administration/router";
+<script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useAuth0 } from "@auth0/auth0-vue";
 import { router } from "@/routes";
@@ -52,8 +51,8 @@ const applicationTitle = ref(applicationName);
 const applicationSubtitle = "Public Service Commission";
 
 onMounted(async () => {
-  let u = await waitForUserToLoad();
-  if (u && u.sub) router.push("/");
+  //let u = await waitForUserToLoad();
+  //if (u && u.sub) router.push("/");
 });
 
 function checkAuth() {

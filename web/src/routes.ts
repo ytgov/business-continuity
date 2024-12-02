@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 import adminRoutes from "@/modules/administration/router";
 import { authGuard } from "@auth0/auth0-vue";
+import useCurrentUser from "@/use/use-current-user";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -31,14 +32,6 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-import { useUserStore } from "@/store/UserStore";
-
-export async function waitForUserToLoad(): Promise<any> {
-  let u = useUserStore();
-  await u.initialize();
-  return u;
-}
-
 export const router = createRouter({
   history: createWebHistory(),
   routes,
@@ -46,33 +39,25 @@ export const router = createRouter({
 
 router.beforeEach(async (to) => {
   //document.title = `${APPLICATION_NAME} ${to.meta.title ? " - " + to.meta.title : ""}`
-  console.log("BEFORE", to.meta.requiresAuth, to.meta.requireSystemAdmin);
 
   if (to.meta.requiresAuth === false) {
-    console.log("route allowed - no auth required");
     return true;
   }
-
-  console.log("Await authGuard");
 
   const isAuthenticated = await authGuard(to);
 
+  const {isSystemAdmin} = useCurrentUser()
+
   if (isAuthenticated) {
-    console.log("You are authenticated");
-
     if (to.meta.requireSystemAdmin) {
-      const u = await waitForUserToLoad();
+      //const u = await waitForUserToLoad();
 
-      console.log("User Is", u.isSystemAdmin);
-
-      console.log("requires Admin");
-      return u.isSystemAdmin;
+      console.log("HERE",isSystemAdmin.value)
+      return isSystemAdmin.value;
+      //return u.isSystemAdmin;
     }
-
-    console.log(" route allowed");
     return true;
   }
 
-  console.log("You are NOT authenticated - route blocked");
   return false;
 });

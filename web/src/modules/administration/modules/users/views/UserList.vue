@@ -38,7 +38,7 @@
       </template>
 
       <template v-slot:item.roles="{ item }">
-        {{ item.roles }}
+        {{ item.roles.join(", ") }}
       </template>
     </v-data-table>
   </base-card>

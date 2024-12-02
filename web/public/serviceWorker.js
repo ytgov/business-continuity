@@ -43,15 +43,9 @@ registerRoute(
 // Cache reports
 registerRoute(
   ({ url }) => {
-    return url.pathname.startsWith("/api/documents");
+    return url.pathname.startsWith("/api/public-documents");
   },
   new NetworkFirst({
     cacheName: "api-documents",
-    /* plugins: [
-      new ExpirationPlugin({
-        maxEntries: 16,
-        maxAgeSeconds: 60 * 24 * 60, // 60 days
-      }),
-    ], */
   })
 );

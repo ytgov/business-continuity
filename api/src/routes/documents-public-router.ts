@@ -1,28 +1,18 @@
 import express, { Request, Response } from "express";
 
 import { DepartmentService, DocumentationService } from "../services";
-import { isArray } from "lodash";
-import { DocumentationSecurityLevel } from "src/data/models";
 
-export const documentsRouter = express.Router();
+export const documentsPublicRouter = express.Router();
 
 const departments = new DepartmentService();
 const db = new DocumentationService();
 
-documentsRouter.get("/", async (req: Request, res: Response) => {
+documentsPublicRouter.get("/", async (req: Request, res: Response) => {
   let list = await departments.getAll();
   list = list.filter((i) => i.is_active);
 
-  let documents = await db.getAll();
+  let documents = await db.getAllPublic();
   documents = documents.filter((i) => i.is_active);
-
-  if (req.user && req.user.roles) {
-    const roles = isArray(req.user.roles) ? req.user.roles : req.user.roles.split(",");
-
-    if (!roles.includes("Restricted")) {
-      documents = documents.filter((d) => d.security_level != DocumentationSecurityLevel.YG_RESTRICTED);
-    }
-  }
 
   for (let item of list) {
     item.documents = documents.filter((i) => i.department_id == item.id);

@@ -1,3 +1,5 @@
+import { fileURLToPath, URL } from "node:url";
+
 // Plugins
 import vue from "@vitejs/plugin-vue";
 import vuetify from "vite-plugin-vuetify";
@@ -5,7 +7,6 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // Utilities
 import { defineConfig } from "vite";
-import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -31,12 +32,14 @@ export default defineConfig({
   define: { "process.env": {} },
   resolve: {
     alias: {
-      "@/": `${path.resolve(__dirname, "src")}/`,
-      "@models": `${path.resolve(__dirname, "../api/src/data/models")}`,
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
     extensions: [".js", ".json", ".jsx", ".mjs", ".ts", ".tsx", ".vue"],
   },
   server: {
     port: 8080,
+  },
+  test: {
+    globals: true, // https://vitest.dev/config/#globals
   },
 });

@@ -50,28 +50,17 @@ export const useUserAdminStore = defineStore("userAdmin", {
       let api = useApiStore();
 
       if (!this.selectedUser) return;
-
-      const roles = this.selectedUser.roles;
-      let u = clone(this.selectedUser);
-      delete (u as any).roles;
-
-      if (this.selectedUser) {
-        await api
-          .secureCall("put", `${USERS_URL}/${this.selectedUser.id}`, u)
-          .then(async (resp) => {
-            this.users = resp.data;
-
-            //await api.secureCall("post", `${ROLE_URL}/user/${u.id}`, { roles }).then((resp) => {});
-
-            this.unselectUser();
-          })
-          .finally(() => {
-            this.isLoading = false;
-          });
-
-        m.notify({ text: "User saved", variant: "success" });
-        this.getAllUsers();
-      }
+      await api
+        .secureCall("put", `${USERS_URL}/${this.selectedUser.id}`, this.selectedUser)
+        .then(async (resp) => {
+          //this.users = resp.data;
+          this.unselectUser();
+          m.notify({ text: "User saved", variant: "success" });
+          this.getAllUsers();
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
     async addUser(user: any) {
       let api = useApiStore();
@@ -108,8 +97,9 @@ export interface User {
   branch: string;
   unit: string;
   is_active: boolean | string;
+  iss: string;
 
-  roles: string;
+  roles: string | string[];
 }
 
 if (import.meta.hot) {
