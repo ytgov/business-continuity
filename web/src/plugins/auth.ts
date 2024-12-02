@@ -23,3 +23,5 @@ export const AuthHelper = createAuth0({
   // Uncomment the following line to use the config from .env file
   // redirect_uri: REDIRECT_URI,
 });
+
+export default config;
