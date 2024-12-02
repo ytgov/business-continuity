@@ -3,6 +3,14 @@ import { defineStore } from "pinia";
 import { useApiStore } from "@/store/ApiStore";
 import { DEPARTMENT_URL, DOCUMENTS_URL } from "@/urls";
 
+// ensure this matches api
+export enum DocumentationSecurityLevel {
+  PUBLIC = "Public",
+  YG_LIKELY = "Not authenticated YG Staff",
+  YG_LOGIN = "Authenticated YG Staff",
+  YG_RESTRICTED = "Authenticated YG Restricted",
+}
+
 export const useDepartmentStore = defineStore("department", {
   state: () => ({
     isLoading: false,
