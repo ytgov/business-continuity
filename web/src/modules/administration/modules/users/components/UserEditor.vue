@@ -40,12 +40,13 @@
               :items="roles"
               item-title="name"
               item-value="id"
+              multiple
               hide-details />
           </v-col>
         </v-row>
       </v-card-text>
       <v-card-actions class="mx-4 mb-2">
-        <v-btn color="primary" variant="flat" @click="saveUser()">Save</v-btn>
+        <v-btn color="primary" variant="flat" @click="saveUser">Save</v-btn>
         <v-spacer></v-spacer>
         <v-btn color="yg_sun" variant="outlined" @click="close">Close</v-btn>
       </v-card-actions>
@@ -62,7 +63,7 @@ export default {
   name: "UserEditor",
   data: () => ({
     departmentRelevantList: [3, 4],
-    roles: ["System Admin", "Departmental"],
+    roles: ["System Admin", "Departmental", "Restricted"],
   }),
   computed: {
     ...mapState(useUserAdminStore, ["selectedUser"]),

@@ -11,5 +11,5 @@ export interface User {
   branch: string;
   unit: string;
   is_active: boolean | string;
-  roles?: string;
+  roles?: string | string[];
 }

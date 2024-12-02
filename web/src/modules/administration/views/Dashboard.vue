@@ -57,6 +57,7 @@
       </v-card>
     </v-col>
   </v-row>
+  <!--{{lastLogin}}-->
 </template>
 
 <script lang="ts">
@@ -76,7 +77,7 @@ export default {
     ...mapState(useUserAdminStore, ["userCount"]),
     ...mapState(useDepartmentAdminStore, ["departmentCount"]),
     ...mapState(useDocumentationAdminStore, ["documentationCount"]),
-    ...mapState(useUserStore, ["user"]),
+    ...mapState(useUserStore, ["user", "lastLogin"]),
   },
   async mounted() {
     await this.getAllUsers();

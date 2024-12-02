@@ -14,6 +14,11 @@ userRouter.get("/me", async (req: Request, res: Response) => {
 
 userRouter.get("/", async (req: Request, res: Response) => {
   let list = await db.getAll();
+
+  list.map((u) => {
+    if (u.roles) u.roles = (u.roles as string).split(",");
+  });
+
   return res.json({ data: list });
 });
 
@@ -53,7 +58,7 @@ userRouter.put(
   ReturnValidationErrors,
   async (req: Request, res: Response) => {
     const { id } = req.params;
-    let { is_active, department, division, branch, unit } = req.body;
+    let { is_active, department, division, branch, unit, roles } = req.body;
 
     let existing = await db.getById(id);
     if (!existing) return res.status(404).send("User not found");
@@ -66,6 +71,12 @@ userRouter.put(
     existing.division = division;
     existing.branch = branch;
     existing.unit = unit;
+
+    let newRoles = null;
+
+    if (roles) newRoles = roles.join(",");
+
+    existing.roles = newRoles;
     await db.update(id, existing);
 
     res.json({}).send();
