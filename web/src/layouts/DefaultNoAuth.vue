@@ -64,22 +64,14 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
-import { storeToRefs } from "pinia";
 import { useDisplay } from "vuetify";
+import { useAuth0 } from "@auth0/auth0-vue";
 
 import { applicationName } from "@/config";
-import { useInterfaceStore } from "@/store/InterfaceStore";
-import { useAuth0 } from "@auth0/auth0-vue";
 import useCurrentUser from "@/use/use-current-user";
 
 const { loginWithRedirect, logout } = useAuth0();
-
-const interfaceStore = useInterfaceStore();
-const { isOffline } = storeToRefs(interfaceStore);
-
 const { currentUser, isSystemAdmin } = useCurrentUser();
-
 const { smAndUp } = useDisplay();
 
 async function logoutClick() {
