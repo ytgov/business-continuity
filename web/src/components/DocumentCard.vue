@@ -2,7 +2,7 @@
   <div style="padding: 15px; background-color: white; border-radius: 4px; border: 1px #00000044 solid">
     <strong style="font-size: 1rem">{{ index }}: {{ props.document.name }}</strong>
     <v-divider class="mt-1 mb-2" />
-    <div class="text-caption">Summary: {{ props.document.description }} --- {{ props.document.security_level }}</div>
+    <div class="text-caption">Summary: {{ props.document.description }}</div>
     <v-divider class="mt-1 mb-2" />
 
     <v-chip color="primary" variant="flat" @click="viewClick" class="cursor-pointer">
