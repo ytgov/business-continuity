@@ -103,12 +103,8 @@ export function useCurrentUser<IsLoaded extends boolean = false>() {
   function hasRole(roleName: string): boolean {
     if (!state.currentUser) return false;
     if (state.currentUser.roles) {
-      const roles = isArray(state.currentUser.roles || "")
-        ? [...state.currentUser.roles]
-        : `${state.currentUser.roles}`.split(",");
-
-      const role = roles.find((r) => r == roleName);
-      if (role) return true;
+      const roles = state.currentUser.roles;
+      return roles.includes(roleName);
     }
     return false;
   }

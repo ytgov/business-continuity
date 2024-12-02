@@ -99,7 +99,7 @@ export interface User {
   is_active: boolean | string;
   iss: string;
 
-  roles: string | string[];
+  roles: string[];
 }
 
 if (import.meta.hot) {

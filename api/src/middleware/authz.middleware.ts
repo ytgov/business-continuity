@@ -84,7 +84,7 @@ export async function loadUser(req: Request, res: Response, next: NextFunction) 
           };
 
           await db.create(newUser);
-          req.user = { ...req.user, ...newUser };
+          req.user = { ...req.user, ...newUser, roles: [] };
         }
       } else {
         console.log("Payload from Auth0 is strange or failed for", req.auth);
