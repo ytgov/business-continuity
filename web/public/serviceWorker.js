@@ -16,13 +16,13 @@ self.skipWaiting();
 // when the service worker is first installed write to the console
 self.addEventListener("install", async (event) => {
   console.log("Service worker installed", new Date());
-  await axios.get(`${document.location.origin}/api/pwa-install`);
+  await axios.get(`${self.location.origin}/api/pwa-install`);
 });
 
 // when the service worker is activated write to the console
 self.addEventListener("activate", async (event) => {
   console.log("Service worker activated", new Date());
-  await axios.get(`${document.location.origin}/api/pwa-activate`);
+  await axios.get(`${self.location.origin}/api/pwa-activate`);
 });
 
 /*
