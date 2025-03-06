@@ -1,5 +1,8 @@
 /* eslint-disable no-undef, no-restricted-globals */
 
+import axios from "axios";
+import {} from "../src/urls";
+
 console.log("Loading serviceWorker.js...");
 
 import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
@@ -9,6 +12,22 @@ import { ExpirationPlugin } from "workbox-expiration";
 
 self.skipWaiting();
 // workbox.core.clientsClaim();
+
+// when the service worker is first installed write to the console
+self.addEventListener("install", async (event) => {
+  console.log("Service worker installed", new Date());
+  localStorage.setItem("serviceWorkerInstalled", new Date());
+
+  await axios.get(`${document.location.origin}/api/pwa-install`);
+});
+
+// when the service worker is activated write to the console
+self.addEventListener("activate", async (event) => {
+  console.log("Service worker activated", new Date());
+  localStorage.setItem("serviceWorkerActivate", new Date());
+
+  await axios.get(`${document.location.origin}/api/pwa-activate`);
+});
 
 /*
  * vite-plugin-pwa provides us with paths to all the files to precache via __WB_MANIFEST.

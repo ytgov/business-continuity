@@ -7,6 +7,7 @@ import { API_PORT, AUTH0_DOMAIN, FRONTEND_URL } from "./config";
 import { doHealthCheck } from "./utils/healthCheck";
 import { departmentRouter, documentationRouter, documentsPublicRouter, documentsRouter, userRouter } from "./routes";
 import { checkJwt, loadUser } from "./middleware/authz.middleware";
+import requestLoggerMiddleware from "./middleware/request-logger-middleware";
 import migrator from "./data/migrator";
 
 const app = express();
@@ -46,6 +47,9 @@ app.use(
     credentials: true,
   })
 );
+
+
+app.use(requestLoggerMiddleware)
 
 app.get("/api/healthCheck", (req: Request, res: Response) => {
   doHealthCheck(req, res);
