@@ -48,8 +48,10 @@ app.use(
   })
 );
 
+app.use(requestLoggerMiddleware);
 
-app.use(requestLoggerMiddleware)
+console.log("LOGGER SETUP")
+
 
 app.get("/api/healthCheck", (req: Request, res: Response) => {
   doHealthCheck(req, res);
